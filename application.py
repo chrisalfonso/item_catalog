@@ -16,13 +16,6 @@ import json
 from flask import make_response
 import requests
 
-### TO - DO's
-# Feed them a specific template based on their privileges. Can I put conditional statements based on users info in the templates? How???
-# - Display logged in users information (Dec.30 done... /profile). 
-# - Users should be able to modify only those items that they themselves have created. (DONE!)
-# - Clear errors on routes to JSON endpoints (Dec.23 - works now! Had erroneously included the category relationship in the JSON serializable format)
-###
-
 CLIENT_ID = json.loads(
   open('client_secrets.json', 'r').read())['web']['client_id']
 
@@ -110,9 +103,6 @@ def showCategories():
   #recent_items_OLD = session.query(Item).order_by(desc(Item.id)).join(Category.id).limit(6)
   recent_items = session.query(Item).order_by(desc(Item.id)).join(Item.category).limit(6)
   
-  #if 'username' not in login_session:
-  #  return render_template('categories-pub.html', categories = categories)
-  #else:  
   return render_template('main_new.html', categories = categories, items = recent_items)
 
 
