@@ -13,4 +13,4 @@ Defines the database tables and relationships. Creates classes for use with SQLA
 Creates sample categories and items. Default user (creator) is 'Han Solo'.
 
 ##application.py
-Runs the item catalog application: HTTP server, 
+Runs the item catalog application: HTTP server, set state token, Google authentication, app routes.
