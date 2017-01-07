@@ -1,0 +1,16 @@
+{% extends "main_new.html" %}
+
+{% block menu_allItems %}<a href="{{url_for('categoryItemsJSON', category_name=category.name)}}">All category items</a>{% endblock %}
+
+{% block page_title %}{{ category.name }}{% endblock %}
+{% block page_desc %}{% endblock %}
+{% block cat_add_delete %}
+	<a href="{{ url_for('editCategory', category_name = category.name) }}"><button class="btn btn-default">Edit category</button></a>
+    <a href="{{ url_for('deleteCategory', category_name = category.name) }}"><button class="btn btn-default">Delete category</button></a>
+{% endblock %}
+
+{% block page_header %}
+<div class="col-lg-12">
+	<a href="{{ url_for('newItem', category_name = category.name) }}"><button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add item</button></a>
+</div>
+{% endblock %}

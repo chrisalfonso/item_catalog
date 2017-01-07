@@ -1,0 +1,24 @@
+{% extends "main_new.html" %}
+
+
+
+{% block page_title %}Create category{% endblock %}
+{% block page_desc %}{% endblock %}
+{% block cat_add_delete %}{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block content %}
+<div class="col-xs-18 col-lg-12">
+	<form action="#" method="post"> <!-- action is url_for ... -->
+		<div class="form-group">
+			<input type ="text" class="form-control" maxlength="100" name="name" placeholder="Category Name">
+		</div>
+		<button type="submit" class="btn btn-default" id="submit" type="submit">Create</button>
+	</form>
+</div>
+{% endblock %}
+
+{% block add_item %}
+	<!-- moved form to main content area -->
+{% endblock %}
