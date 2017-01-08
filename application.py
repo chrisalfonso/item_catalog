@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, \
+	jsonify, url_for, flash
 app = Flask(__name__)
 
 from sqlalchemy import create_engine, asc, desc
@@ -21,14 +22,14 @@ CLIENT_ID = json.loads(
 
 def getUserID(email):
 	try:
-		user = session.query(User).filter_by(email = email).one()
+		user = session.query(User).filter_by(email=email).one()
 		return user.id
 	except:
 		return None
 
 def getUserInfo(user_id):
 	try:
-		user = session.query(User).filter_by(id = user_id).one()
+		user = session.query(User).filter_by(id=user_id).one()
 		return user
 	except:
 		return None
