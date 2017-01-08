@@ -56,22 +56,20 @@ def showLogin():
 	#return "The current state is %s" % login_session['state']
 	return render_template('login.html', STATE=state)
 
-# JSON ENDPOINTS
-
-# all items in category
+# JSON ENDPOINT: all items in category
 @app.route('/catalog/<category_name>/item/JSON')
 def categoryItemsJSON(category_name):
 	category = session.query(Category).filter_by(name = category_name).one()
 	items = session.query(Item).filter_by(category_id = category.id).all()
 	return jsonify(CategoryItems=[b.serialize for b in items])
 
-# single item
+# JSON ENDPOINT: single item
 @app.route('/catalog/<category_name>/item/<item_name>/JSON')
 def categoryItemJSON(category_name, item_name):
 	item = session.query(Item).filter_by(name = item_name).one()
 	return jsonify(item = item.serialize)
 
-# all categories
+# JSON ENDPOINT: all categories
 @app.route('/catalog/JSON')
 def categoriesJSON():
     categories = session.query(Category).all()
@@ -85,14 +83,15 @@ def profile():
 	if 'username' not in login_session:
     	return redirect('/login')
 	else:  
-    	return render_template('profile.html', name = login_session['username'], id = login_session['user_id'], pic = login_session['picture'], categories = categories) 
-
-    # Other items available:
-    # login_session['credentials']
-    # login_session['gplus_id']
-    # login_session['username']
-    # login_session['email']
-    # login_session['picture'] 
+    	return render_template('profile.html', name=login_session['username'], id=login_session['user_id'], pic=login_session['picture'], categories=categories) 
+	"""
+	Other items available:
+	login_session['credentials']
+	login_session['gplus_id']
+	login_session['username']
+	login_session['email']
+	login_session['picture'] 
+	"""
 
 
 # HOMEPAGE
@@ -102,7 +101,7 @@ def showCategories():
 	categories = session.query(Category).order_by(asc(Category.name))
 	recent_items = session.query(Item).order_by(desc(Item.id)).join(Item.category).limit(6)
 
-	return render_template('main_new.html', categories = categories, items = recent_items)
+	return render_template('main_new.html', categories=categories, items=recent_items)
 
 
 # CREATE a new CATEGORY
@@ -120,7 +119,7 @@ def newCategory():
 		flash('New category "%s" successfully created' % newCategory.name)
 		return redirect(url_for('showCategories'))
 	else:
-		return render_template('category_new_rev.html', categories = categories)
+		return render_template('category_new_rev.html', categories=categories)
 
 
 # EDIT a CATEGORY
@@ -135,7 +134,7 @@ def editCategory(category_name):
 
 	if editedCategory.user_id != login_session['user_id']:
 		flash('You are not authorized to edit this category. You must be the category owner.')
-		return redirect(url_for('showItem', category_name = editedCategory.name))
+		return redirect(url_for('showItem', category_name=editedCategory.name))
 
 	if request.method == 'POST':
 		if request.form['name']:
@@ -143,9 +142,9 @@ def editCategory(category_name):
 			session.add(editedCategory)
 			session.commit()
 			flash('Category updated')
-			return redirect(url_for('showItem', category_name = editedCategory.name))
+			return redirect(url_for('showItem', category_name=editedCategory.name))
 	else:
-		return render_template('category_edit_rev.html', category = editedCategory, categories = categories, items = items)
+		return render_template('category_edit_rev.html', category=editedCategory, categories=categories, items=items)
 
 
 # DELETE a CATEGORY
@@ -154,13 +153,13 @@ def deleteCategory(category_name):
 	categoryToDelete = session.query(Category).filter_by(name = category_name).one()
 	items = session.query(Item).filter_by(category_id = categoryToDelete.id).all() # added for new template
 	categories = session.query(Category).order_by(asc(Category.name)) # added for new template
-  
+	
 	if 'username' not in login_session:
 		return redirect('/login')
 
 	if categoryToDelete.user_id != login_session['user_id']:
 		flash('You are not authorized to delete this category. You must be the category owner.')
-		return redirect(url_for('showItem', category_name = categoryToDelete.name))
+		return redirect(url_for('showItem', category_name=categoryToDelete.name))
 
 	if request.method == 'POST':
 		session.delete(categoryToDelete)
@@ -168,7 +167,7 @@ def deleteCategory(category_name):
 		flash('%s Successfully Deleted' % categoryToDelete.name)
 		return redirect(url_for('showCategories'))
 	else:
-		return render_template('category_delete_rev.html', category = categoryToDelete, items = items, categories = categories)
+		return render_template('category_delete_rev.html', category=categoryToDelete, items=items, categories=categories)
 
 
 # SHOW CATEGORY ITEMS
@@ -183,14 +182,14 @@ def showItem(category_name):
 	if 'username' not in login_session:
 		return redirect('/login')
 	else:
-		return render_template('items_rev.html', items = items, category = category, categories = categories, creator = login_session['username'], pic = login_session['picture'])
+		return render_template('items_rev.html', items=items, category=category, categories=categories, creator=login_session['username'], pic=login_session['picture'])
 
 
 # CREATE a new ITEM
 @app.route('/catalog/<category_name>/item/new/',methods=['GET','POST'])
 def newItem(category_name):
 	categories = session.query(Category).order_by(asc(Category.name)) # added for new template
-	category = session.query(Category).filter_by(name = category_name).one()
+	category = session.query(Category).filter_by(name=category_name).one()
 
 	# Redirect if user is not logged in
 	if 'username' not in login_session:
@@ -199,16 +198,16 @@ def newItem(category_name):
 	# Prevent users from accessing 'create item' form directly by URL
 	if category.user_id != login_session['user_id']:
 		flash('You are not authorized to create new menu items for %s. You must be the creator of the category.' % category.name)
-		return redirect(url_for('showItem', category_name = category.name))
+		return redirect(url_for('showItem', category_name=category.name))
 
 	if request.method == 'POST':
 		newItem = Item(name = request.form['name'], description = request.form['description'], category_id = category.id, user_id = login_session['user_id'])
 		session.add(newItem)
 		session.commit()
 		flash('New item "%s" was successfully created' % (newItem.name))
-		return redirect(url_for('showItem', category_name = category.name))
+		return redirect(url_for('showItem', category_name=category.name))
 	else:
-		return render_template('item_new_rev.html', category=category, categories = categories)
+		return render_template('item_new_rev.html', category=category, categories=categories)
 
 
 # EDIT an ITEM
@@ -225,7 +224,7 @@ def editItem(category_name, item_name):
 	# Users can only modify items they themselves have created
 	if editedItem.user_id != login_session['user_id']:
 		flash('You are not authorized to edit this item. You must be the creator of this category.')
-		return redirect(url_for('showItem', category_name = category.name))
+		return redirect(url_for('showItem', category_name=category.name))
 
 	if request.method == 'POST':
 		if request.form['name']:
@@ -235,9 +234,9 @@ def editItem(category_name, item_name):
 		session.add(editedItem)
 		session.commit() 
 		flash('Item updated')
-		return redirect(url_for('showItem', category_name = category.name))  
+		return redirect(url_for('showItem', category_name=category.name))  
 	else:
-		return render_template('item_edit_rev.html', category = category, item = editedItem, categories = categories)
+		return render_template('item_edit_rev.html', category=category, item=editedItem, categories=categories)
 
 
 # DELETE an ITEM
@@ -254,15 +253,15 @@ def deleteItem(category_name,item_name,item_id):
 	# Users can only delete items they themselves have created
 	if itemToDelete.user_id != login_session['user_id']:
 		flash('You are not authorized to delete this item. You must be the creator of this category.')
-		return redirect(url_for('showItem', category_name = category.name))
+		return redirect(url_for('showItem', category_name=category.name))
 
 	if request.method == 'POST':
 		session.delete(itemToDelete)
 		session.commit()
 		flash('%s successfully deleted' % itemToDelete.name)
-		return redirect(url_for('showItem', category_name = category.name))
+		return redirect(url_for('showItem', category_name=category.name))
 	else:
-		return render_template('item_delete_rev.html', item = itemToDelete, category=category, categories = categories)
+		return render_template('item_delete_rev.html', item=itemToDelete, category=category, categories=categories)
   
 
 # Google authentication
@@ -276,7 +275,7 @@ def gconnect():
 
 	# Obtain authorization code
 	code = request.data
-  
+	
 	try:
 		# Upgrade the authorization code into a credentials object
 		oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
