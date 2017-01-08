@@ -5,6 +5,7 @@ Lists items within a variety of sports categories and provides registration and 
 * Run 'python gen_items.py' to create database session and populate itemscatalog database with sample data 
 * Run 'python application.py' to start the item catalog application
 * In a browser, visit 'localhost:5000/catalog'
+
 ---
 Notes:
 * Google sign-in is required to create/edit/delete items.
