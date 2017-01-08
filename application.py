@@ -8,7 +8,7 @@ from database_setup import Base, User, Category, Item
 from flask import session as login_session
 import random, string
 
-#For Google sign in
+# For Google sign in
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
@@ -67,13 +67,13 @@ def categoryItemsJSON(category_name):
 @app.route('/catalog/<category_name>/item/<item_name>/JSON')
 def categoryItemJSON(category_name, item_name):
 	item = session.query(Item).filter_by(name = item_name).one()
-	return jsonify(item = item.serialize)
+	return jsonify(item=item.serialize)
 
 # JSON ENDPOINT: all categories
 @app.route('/catalog/JSON')
 def categoriesJSON():
-    categories = session.query(Category).all()
-    return jsonify(categories = [r.serialize for r in categories])
+	categories = session.query(Category).all()
+	return jsonify(categories=[r.serialize for r in categories])
 
 # PROFILE PAGE
 @app.route('/profile')
@@ -84,6 +84,7 @@ def profile():
     	return redirect('/login')
 	else:  
     	return render_template('profile.html', name=login_session['username'], id=login_session['user_id'], pic=login_session['picture'], categories=categories) 
+	
 	"""
 	Other items available:
 	login_session['credentials']
@@ -262,7 +263,7 @@ def deleteItem(category_name,item_name,item_id):
 		return redirect(url_for('showItem', category_name=category.name))
 	else:
 		return render_template('item_delete_rev.html', item=itemToDelete, category=category, categories=categories)
-  
+
 
 # Google authentication
 @app.route('/gconnect', methods=['POST'])
