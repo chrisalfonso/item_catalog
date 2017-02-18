@@ -11,8 +11,15 @@
 
 ## Configurations
 1. Create grader user with permission to sudo
+..* '''sudo adduser grader'''
+
 2. Enable key-based authentication
+..* on local machine '''ssh-keygen'''
+
 3. Update all installed packages
+..* '''sudo apt-get update'''
+..* '''sudo apt-get upgrade'''
+
 4. Change SSH port from 22 to 2200
 5. Allow incoming connections only to the following ports 2200, 80, and 123
 6. Configure local timezone to UTC
