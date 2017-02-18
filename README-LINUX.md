@@ -1,6 +1,8 @@
+# Linux Server Configuration
+
 ### Access
-35.164.200.0
-ec2-35-164-200-0.us-west-2.compute.amazonaws.com
+- 35.164.200.0
+- ec2-35-164-200-0.us-west-2.compute.amazonaws.com
 
 ### Installed Software
 - Apache
