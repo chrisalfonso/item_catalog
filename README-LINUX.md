@@ -31,6 +31,10 @@
 11. Clone and configure Item Catalog app
 
 ## Known Issues
-Intermittent 'Internal Server Error' over Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
+Intermittent 'Internal Server Error' accessing website on Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
 
 > InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.IntegrityError) duplicate key value violates unique constraint "user_pkey"
+
+Intermittent SSH disconnection to server on Amazon Web Services. Occurs occassionally when reviewing log files or reading ('cat') files. Error reported in terminal:
+
+> packet_write_wait: Connection to 35.164.200.0 port 2200: Broken pipe
