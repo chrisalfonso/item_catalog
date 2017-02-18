@@ -1,13 +1,17 @@
 # Linux Server Configuration
+This configures an Amazon Web Services (AWS) virtual server to host the Item Catalog application.
 
 ## Access
 - 35.164.200.0
 - [ec2-35-164-200-0.us-west-2.compute.amazonaws.com](http://ec2-35-164-200-0.us-west-2.compute.amazonaws.com)
 
 ## Installed Software
-- Apache
-- Git
+- Apache (serves item catalog as a WSGI application)
+- Git 
+- OAuth2 (provides authentication via Google API)
 - PostgreSQL
+- SQLAlchemy (Python ORM)
+- Virtualenv (followed as best practice according to Flask docs)
 
 ## Configurations
 1. Create grader user with permission to sudo
@@ -29,6 +33,9 @@
 9. Disable remote connections to database
 10. Create 'catalog' user with limited permissions to 'catalogdb' database
 11. Clone and configure Item Catalog app
+
+## Resources
+- 
 
 ## Known Issues
 Intermittent 'Internal Server Error' accessing website on Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
