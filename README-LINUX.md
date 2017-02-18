@@ -1,15 +1,15 @@
 # Linux Server Configuration
 
-### Access
+## Access
 - 35.164.200.0
-- ec2-35-164-200-0.us-west-2.compute.amazonaws.com
+- [ec2-35-164-200-0.us-west-2.compute.amazonaws.com](http://ec2-35-164-200-0.us-west-2.compute.amazonaws.com)
 
-### Installed Software
+## Installed Software
 - Apache
 - Git
 - PostgreSQL
 
-### Configurations
+## Configurations
 1. Create grader user with permission to sudo
 2. Enable key-based authentication
 3. Update all installed packages
@@ -21,3 +21,8 @@
 9. Disable remote connections to database
 10. Create 'catalog' user with limited permissions to 'catalogdb' database
 11. Clone and configure Item Catalog app
+
+## Known Issues
+Intermittent 'Internal Server Error' over Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
+
+> InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.IntegrityError) duplicate key value violates unique constraint "user_pkey"
