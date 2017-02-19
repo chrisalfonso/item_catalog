@@ -15,27 +15,43 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
 - [virtualenv](http://flask.pocoo.org/docs/0.12/installation/)
 
 ## Configuration
-1. Create *grader* user with sudo access
+1. Create ```grader``` user with sudo access
   * ```sudo adduser grader```
   * ```vi /etc/sudoers.d/grader```
   * in the grader config file, set ```grader ALL=(ALL) ALL```
 
 2. Enable key-based authentication
-  * on local machine ```ssh-keygen```
+  * generate key on local machine ```ssh-keygen```
+  * copy key contents ```cat ~/.ssh/udacitygrader.rsa```
+  * paste content to authorized_keys on server ```sudo vi ~/.ssh/authorized_keys```
 
 3. Update all installed packages
   * ```sudo apt-get update```
   * ```sudo apt-get upgrade```
 
 4. Disable remote login for root user
-  *```sudo vi /etc/ssh/sshd_config```
-  *```PermitRootLogin no```
+  * ```sudo vi /etc/ssh/sshd_config```
+  * ```PermitRootLogin no```
+  * ```sudo service ssh restart```
 
 5. Change SSH port from 22 to 2200
   * ```sudo vi /etc/ssh/sshd_config```
+  * change ```Port 22``` to ```Port 2200```
+  * sudo service ssh restart
   
-6. Allow incoming connections only to the following ports 2200, 80, and 123
+6. Allow incoming connections only to ports 2200, 80, and 123
+  * ```sudo ufw default allow outgoing```
+  * ```sudo ufw default deny incoming```
+  * ```sudo ufw allow 2200```
+  * ```sudo ufw allow 80```
+  * ```sudo ufw allow 123```
+  * ```sudo ufw enable```
+  * ```sudo ufw status```
+  
 7. Configure local timezone to UTC
+  * ```sudo dpkg-reconfigure tzdata```
+  * select ```UTC``` from the menu
+
 8. Serve WSGI application
 9. Set password for default 'postgres' user
 10. Disable remote connections to database
@@ -44,6 +60,10 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
 
 ## Resources
 - [How do I disable SSH remote login as root](http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server)
+- [UFW](https://help.ubuntu.com/community/UFW)
+- [PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
+- [How to install and use PostgreSQL](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04)
+- [How to secure PostgreSQL on an Ubuntu VPS](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps)
 
 ## Known Issues
 Intermittent 'Internal Server Error' accessing website on Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
