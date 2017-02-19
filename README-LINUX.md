@@ -5,16 +5,16 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
 - 35.164.200.0
 - [ec2-35-164-200-0.us-west-2.compute.amazonaws.com](http://ec2-35-164-200-0.us-west-2.compute.amazonaws.com)
 
-## Installed Software
+## Software
 - [Apache HTTP Server](http://httpd.apache.org/docs/2.2/) (serves item catalog as a WSGI application)
 - [Flask](http://flask.pocoo.org/)
-- Git 
-- OAuth2 (provides authentication via Google API)
+- [Git](https://help.ubuntu.com/lts/serverguide/git.html)
+- [OAuth2](https://developers.google.com/identity/protocols/OAuth2) (provides authentication via Google API)
 - [PostgreSQL 9.3](https://www.postgresql.org/docs/9.3/static/index.html)
 - [SQLAlchemy](http://www.sqlalchemy.org/) (Python ORM)
 - [virtualenv](http://flask.pocoo.org/docs/0.12/installation/)
 
-## Configurations
+## Configuration
 1. Create *grader* user with sudo access
   * ```sudo adduser grader```
   * ```vi /etc/sudoers.d/grader```
@@ -27,19 +27,23 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
   * ```sudo apt-get update```
   * ```sudo apt-get upgrade```
 
-4. Change SSH port from 22 to 2200
+4. Disable remote login for root user
+  *```sudo vi /etc/ssh/sshd_config```
+  *```PermitRootLogin no```
+
+5. Change SSH port from 22 to 2200
   * ```sudo vi /etc/ssh/sshd_config```
   
-5. Allow incoming connections only to the following ports 2200, 80, and 123
-6. Configure local timezone to UTC
-7. Serve WSGI application
-8. Set password for default 'postgres' user
-9. Disable remote connections to database
-10. Create 'catalog' user with limited permissions to 'catalogdb' database
-11. Clone and configure Item Catalog app
+6. Allow incoming connections only to the following ports 2200, 80, and 123
+7. Configure local timezone to UTC
+8. Serve WSGI application
+9. Set password for default 'postgres' user
+10. Disable remote connections to database
+11. Create 'catalog' user with limited permissions to 'catalogdb' database
+12. Clone and configure Item Catalog app
 
 ## Resources
-- 
+- [How do I disable SSH remote login as root](http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server)
 
 ## Known Issues
 Intermittent 'Internal Server Error' accessing website on Amazon Web Services. Refreshing the page clears the error and renders the appropriate webpage. Apache error log reports the following:
