@@ -22,7 +22,7 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
 
 2. Enable key-based authentication
   * generate key on local machine ```ssh-keygen```
-  * copy key contents ```cat ~/.ssh/udacitygrader.rsa```
+  * copy key content from local machine ```cat ~/.ssh/udacitygrader.rsa```
   * paste content to authorized_keys on server ```sudo vi ~/.ssh/authorized_keys```
 
 3. Update all installed packages
@@ -52,11 +52,32 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
   * ```sudo dpkg-reconfigure tzdata```
   * select ```UTC``` from the menu
 
-8. Serve WSGI application
+8. Install and configure Apache to serve a Python mod_wsgi application.
+  * ```sudo apt-get install apache2```
+  * create application directories
+    * ```sudo mkdir /var/www/myapps```
+    * ```sudo mkdir /var/www/myapps/item_catalog```
+  * create WSGI file
+    * ```sudo vi /var/www/myapps.wsgi```
+  
 9. Set password for default 'postgres' user
+
 10. Disable remote connections to database
+
 11. Create 'catalog' user with limited permissions to 'catalogdb' database
+
 12. Clone and configure Item Catalog app
+  * create app directory
+    * ```sudo mkdir /var/www/myapps```
+  * clone Item Catalog app
+    * ```cd /var/www/myapps```
+    * ```git clone....```
+  * create virtual environment and install required software
+    * ```virtualenv...```
+    * ```sudo apt-get install flask```
+    * ```sudo apt-get install sqlalchemy```
+  * enable site
+    * ```a2enmod item_catalog```
 
 ## Resources
 - [How do I disable SSH remote login as root](http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server)
