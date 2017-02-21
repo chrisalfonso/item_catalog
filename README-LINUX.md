@@ -17,7 +17,7 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
 ## Configuration
 1. Create ```grader``` user with sudo access
   * ```sudo adduser grader```
-  * ```vi /etc/sudoers.d/grader```
+  * ```sudo vi /etc/sudoers.d/grader```
   * In the grader config file, set ```grader ALL=(ALL) ALL```
 
 2. Enable key-based authentication
@@ -61,7 +61,7 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
     * ```sudo mkdir /var/www/myapps```
   * Create WSGI file
     * ```sudo vi /var/www/myapps/myapps.wsgi```
-  * Create configuration file
+  * Create VirtualHost configuration file
     * ```sudo vi /etc/apache2/sites-available/myapps.conf```
   
 9. Install and configure PostgreSQL
@@ -90,9 +90,13 @@ This configures an Amazon Web Services (AWS) virtual server to host the Item Cat
     * ```source venv/bin/activate```
     * ```sudo pip install flask```
     * ```sudo pip install sqlalchemy```
-  * Update configuration file
+  
+  * Update VirtualHost configuration file
+    * Update ```Alias /static``` path to ```/var/www/myapps/item_catalog/static```
+    * Update paths in ```/etc/apache2/sites-available/000-default.conf``` as well
   
   * Rename application.py to __init__.py
+    * ```mv application.py __init__.py```
   
   * Edit __init__.py
     * Update client secrets path to ```/var/www/myapps/item_catalog/client_secrets.json```
